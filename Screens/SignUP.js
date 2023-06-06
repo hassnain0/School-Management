@@ -5,6 +5,7 @@ import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword} fro
 import { firebaseConfig } from './FireBase';
 import { initializeApp } from '@firebase/app';
 import Login from './Login';
+import { useNavigation } from '@react-navigation/native';
 
 
 const SignUP= ({navigation}) => {
@@ -20,13 +21,13 @@ const SignUP= ({navigation}) => {
   const app=initializeApp(firebaseConfig);
   const auth=getAuth(app);
 
+const Navigation=useNavigation()
   const handleSignUp = () => {
     if (password === confirmPassword) {
-      console.log("Hello")
  createUserWithEmailAndPassword(auth,email,password)
  .then(userCredentials=>{
   Alert.alert(email,"Registered Sucessfully")
-  navigation.navigate(Login)
+ Navigation.navigate("Home")
   
  })
  .catch(err => {

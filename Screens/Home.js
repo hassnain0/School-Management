@@ -1,24 +1,17 @@
-import { StyleSheet,View,Button,TextInput ,Text,TouchableOpacity,BackHandler,Image, ScrollView,Alert} from 'react-native';
+import { StyleSheet,View,TouchableOpacity,BackHandler, ScrollView,} from 'react-native';
 import React,{useEffect} from 'react'
-
-import Card from '../Screens/Card2';
 import AddStudent from './AddStudent';
 import LottieView from 'lottie-react-native';
-import CardStudent from '../Screens/AddStudentCard'
-import AttendanceCard from './AttendanceCard';
 import Attendence from './Attendence'
 import AddTeacher from './AddTeacher';
 import TouchableAttendanceSheet from './TouchableAttendance';
 import TeacherAttendance from './TeacherAttendance';
-import ViewDataCard from './ViewDataCard';
 import ViewData from './ViewData';
 import ShowAttendance from './ShowAttendance';
 import ViewAttendance from './ViewAttendance';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation-stack';
-import { useFocusEffect } from '@react-navigation/native';
-
- 
-
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import HomeCardComponent from './HomeCardComponent';
  
 const Home=({navigation})=>{
   useFocusEffect(
@@ -35,35 +28,48 @@ const Home=({navigation})=>{
     }, [])
   );
   
-      
+    const Navigation=useNavigation();  
      
-  
+  const AddStudentScreen=()=>{
+     Navigation.navigate("AddStudent")
+  }
 
-    return(
-      <View style={styles.ViewContainer}>
-        <ScrollView>
-        
- <TouchableOpacity onPress={()=>(navigation.navigate('AddStudent'))}>
-<Card style={styles.CardContainer}/>
+  const AddTeacherScreen=()=>{
+    Navigation.navigate("AddTeacher")
+ }
+ const StudentAttendanceScreen=()=>{
+  Navigation.navigate("AddTeacher")
+}
+const StaffAttendanceScreen=()=>{
+  Navigation.navigate("AddTeacher")
+} 
+const StudentDataScreen=()=>{
+  Navigation.navigate("ViewData")
+} 
+const ShowAttendanceScreen=()=>{
+  Navigation.navigate("ShowAttendance")
+} 
+return(
+<View >
+<ScrollView>
+ <TouchableOpacity onPress={AddStudentScreen}>
+<HomeCardComponent title={"Add Student"} />
 </TouchableOpacity>
-<TouchableOpacity onPress={()=>navigation.navigate(AddTeacher)}>
-<CardStudent style={styles.CardContainer}/>
+<TouchableOpacity onPress={AddTeacherScreen}>
+<HomeCardComponent title={"Add Teacher"} myPath={'../LottieFiles/98349-teacher-in-classroom.json'}/>
 </TouchableOpacity>
-
-<TouchableOpacity onPress={()=>(navigation.navigate('Attendence'))}>
-  <AttendanceCard>
-    </AttendanceCard>
+<TouchableOpacity onPress={StudentAttendanceScreen}>
+<HomeCardComponent title={"Student Attendance"} myPath={'../LottieFiles/114427-attendance-loader.json'}/>
 </TouchableOpacity>
-<TouchableOpacity onPress={()=>(navigation.navigate('TouchableAttendance'))}>
-  <TeacherAttendance/>
+<TouchableOpacity onPress={StaffAttendanceScreen}>
+<HomeCardComponent title={"Staff Attendance"} myPath={'../LottieFiles/98349-teacher-in-classroom.json'}/>
 </TouchableOpacity>
-<TouchableOpacity onPress={()=>(navigation.navigate('ViewData'))}>
-  <ViewDataCard/>
+<TouchableOpacity onPress={StudentDataScreen}>
+<HomeCardComponent title={"Student Data"} myPath={'../LottieFiles/120950-data-management.json'}/>
 </TouchableOpacity>
-<TouchableOpacity onPress={()=>(navigation.navigate('ShowAttendance'))}>
-  <ViewAttendance/>
+<TouchableOpacity onPress={ShowAttendanceScreen}>
+<HomeCardComponent title={"Staff Data"} myPath={'../LottieFiles/78298-loginv2.json'}/>
 </TouchableOpacity>
-
 </ScrollView>
 </View>
     )
@@ -96,3 +102,4 @@ const styles=StyleSheet.create
     },
 
    } );
+

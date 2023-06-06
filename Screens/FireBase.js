@@ -17,10 +17,12 @@ import 'firebase/compat/firestore';
   storageBucket: "schoolproject-a0cc0.appspot.com",
   messagingSenderId: "679623123689",
   appId: "1:679623123689:web:9cf7c90a3712f470a84678",
-  measurementId: "G-KMJFH4W4ZB", 
-};    
+  measurementId: "G-KMJFH4W4ZB"
+};
+
 const app=initializeApp(firebaseConfig)
 firebase.initializeApp(firebaseConfig)
+   
 const db=firebase.firestore()
 const auth=getAuth(app);
 export  {db,auth};   

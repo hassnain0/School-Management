@@ -3,35 +3,23 @@ import React from 'react'
 import {KeyboardAvoidingView, StyleSheet,View,Button,TextInput ,Text,TouchableOpacity,Image,Alert} from 'react-native';
 import Home from './Home'
 import SignUP from './SignUP'
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import LottieView from 'lottie-react-native';
-import TouchableAttendance from './TouchableAttendance'
 import ForgotScreen from './ForgotScreen';
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, onAuthStateChanged} from '@firebase/auth';
+import { getAuth,signInWithEmailAndPassword,} from '@firebase/auth';
 import { firebaseConfig } from './FireBase';
 import { initializeApp } from '@firebase/app';
-import { useNavigation } from '@react-navigation/native';
   export default  function Card({navigation}){
  
   const [myEmail,setEmail] =useState('');
   const [myPassword,setPassword] =useState('');
   const [message,setMessage] =useState('');
 
-  console.log(firebaseConfig)
+
   const app=initializeApp(firebaseConfig);
   const  auth=getAuth(app);
 
 
- //Use Effect Method
-// useEffect(()=>{
-//   con st loggedOut=auth.onAuthStateChanged(user=>{
-//     if(user){
-//       navigation.navigate(Home)
-//     }
-//   })
-//   return loggedOut;
-//  },[])
-  //Login Method
   
   const handleLogin=()=>{
     if(!myEmail||!myPassword){
@@ -39,7 +27,6 @@ import { useNavigation } from '@react-navigation/native';
     }
    else{
     signInWithEmailAndPassword(auth,myEmail, myPassword).then(() => {
-      console.log('Hello')
     navigation.navigate(Home)
     
   }).catch(error=>{
@@ -68,9 +55,9 @@ import { useNavigation } from '@react-navigation/native';
         <View style={styles.NestedHeader}>
         <LottieView source={require('../LottieFiles/Example.json')} autoPlay={true} style={styles.ImageContainer}></LottieView>
        < Text style={{color:'#EDEDED', fontWeight:'bold',fontSize:25 , paddingBottom:50, marginTop:20,}}>  Government School     </Text></ View>
-        <TextInput placeholder='            Enter email'  value={myEmail} auto onChangeText={text=>setEmail(text)} style={styles.InputContainer} ></TextInput>
+        <TextInput textAlign='center' placeholder='Enter email'  value={myEmail} auto onChangeText={text=>setEmail(text)} style={styles.InputContainer} ></TextInput>
       
-<TextInput placeholder='            Enter password'  secureTextEntry={true}  value={myPassword} onChangeText={text=>setPassword(text)} style={styles.InputContainer}></TextInput>
+<TextInput textAlign='center' placeholder='Enter password'  secureTextEntry={true}  value={myPassword} onChangeText={text=>setPassword(text)} style={styles.InputContainer}></TextInput>
 <TouchableOpacity  style={styles.submitButton}onPress={handleLogin}>
      <Text style={styles.submitButtonText}>Login</Text>
      </TouchableOpacity>
@@ -91,7 +78,6 @@ import { useNavigation } from '@react-navigation/native';
 
     )
 }
-
 const styles = StyleSheet.create({
     Cardcontainer: {
       flex: 1,

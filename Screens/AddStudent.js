@@ -1,64 +1,135 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert,ScrollView, Keyboard } from 'react-native';
-import { db, firebaseConfig } from './FireBase';
-import firebase from "firebase/compat";
+import React, {useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
+import { firebaseConfig} from './FireBase';
 
-import { useNavigation } from '@react-navigation/native';
+import Util from './Toast';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import firebase from 'react-native-firebase';
+
+
+
 
 const AddStudent = () => {
-  const [state,setState]=useState({
-  studentname:{},
-  studentfatherName:{},
-  studentClass:{},
-  studentage:{},
-  studentcontactNumber:{},
-  studentdob:{},
-  studentgrNo:{},
-  studentcaste:{},
 
-  })
-  
+const [studentname,setStudentName]=useState(null);
+const [studentfatherName,setStudentfatherName]=useState(null);
+const [studentClass,setStudentClass]=useState(null);
+const [studentage,setStudentAge]=useState(null);
+const [studentgrNo,setStudentgrNo]=useState(null);
+const [studentcaste,setStudentCaste]=useState(null);
+const [studentdob,setStudentdob]=useState(null);
+const [studentAdmissionDate,setStudentAdmissionDate]=useState(null);
+const [studentcontactNumber,setStudentContactNumber]=useState(null);
+const [studentBfromNo,setStudentBformNo]=useState(null);
 
-  const {studentname,studentfatherName,studentClass,studentage,studentcontactNumber,studentdob,studentgrNo,studentcaste}=state
+  const addStudentData=async()=>{
 
-  
-
-  //Navigation
-  const navigation=useNavigation();
-  const addStudentData=()=>{
-   
+firebase.initializeApp(firebaseConfig)
+const databse=firebase.firestore();
+    const response=databse.collection('Admission').doc('Student');
     // getLiveLocation();
     try{
-    const usersCollection = db.collection('University')
-    const currentUser = firebase.auth().currentUser;
+await response
+.set({
+Name:studentname,
+FatherName:studentfatherName,
+Class:studentClass,
+Caste:studentcaste,
+GRNo:studentgrNo,
+DateofBirth:studentdob,
+BFROM:studentBfromNo,
+DateAdmission:studentAdmissionDate,
+Age:studentage,
+Status:"Enrolled",
 
+        })
+        .then(() => {
 
-
-// Add a new document to the collection with the user's data
-usersCollection.doc(currentUser.uid).set({
- name:'hello',
-})
-   navigation.goBack();
+    Util.successMsg("Student sucessfully enrolled")
+    resetform();
+    
+      })
+        .catch((error) => {
+          console.error('Error writing document: ', error);
+        });
+ 
     }
     catch(error){
       console.log(error)
     } 
   }
 
+  const resetform =()=>{
+    studentname=" ",
+    studentfatherName=" ",
+    studentcaste=" ",
+    studentcontactNumber=" ",
+    studentgrNo=" ",
+
+    studentdob=" ",
+    studentage=" ",
+    studentClass= " "
 
 
+  }
+
+
+  const CalculateDate=()=>{
+    let date=new Date().toLocaleDateString;
+
+    setStudentAge()
+
+  }
   const handleSubmit = () => {
-    if (!studentname || !fatherName || !caste || !grNo || !dob || age) {
-      Alert.alert('Error', 'Please fill in all required fields');
-      return;
-    }
+  
+  
+  if(studentname==''|| studentname==null){
+    Util.errorMsg("Please enter student name")
+    return ;
+  }
+  console.log(studentfatherName)
+  if(studentfatherName==''||studentfatherName==null){
+    Util.errorMsg("Please enter student fatherName")
+    return ;
+  }
+  if(studentcaste==''||studentcaste==null){
+    Util.errorMsg("Please enter Student Caste")
+    return ;
+  }
+  if(studentcontactNumber==''||studentcontactNumber==null){
+    Util.errorMsg("Please enter student contact number")
+    return ;
+  }
+  if(studentdob==''||studentdob==null){
+    Util.errorMsg("Please enter student Date of Birth")
+    return ;
+  }
+  if(studentage==''||studentage==null){
+    Util.errorMsg("Please enter student Age")
+    return ;
+  }
+  if(studentBfromNo==''||studentBfromNo==null){
+    Util.errorMsg("Please enter student B form No")
+    return ;
+  }
+  if(studentgrNo==''||studentgrNo==null){
+    Util.errorMsg("Please enter student GR No")
+    return ;
+  }
+  if(studentClass==''||studentClass==null){
+    Util.errorMsg("Please enter student class")
+    return ;
+  }
+ else
+{
+  addStudentData();
+}
+    
 
-    // Submit the form data to your backend here
-    // ...
-
-    Alert.alert('Success', 'Student successfully registered');
+   
   };
 
+  
   return(
     <View style={styles.container}>
     <ScrollView>
@@ -67,21 +138,21 @@ usersCollection.doc(currentUser.uid).set({
         style={styles.input}
         placeholder="Full Name"
         value={studentname}
-        onChangeText={(text) => setState({...state,studentname:{text}})}
+        onChangeText={(text) => setStudentName(text)}
       />
 
       <TextInput
         style={styles.input}
         placeholder="father's name"
         value={studentfatherName}
-        onChangeText={(text) => setState({...state,studentfatherName:{text}})}
+        onChangeText={(text) => setStudentfatherName(text)}
       
       />  
        <TextInput
         style={styles.input}
         placeholder="Caste"
         value={studentcaste}
-        onChangeText={(text) => setState({...state,studentcaste:{text}})}
+        onChangeText={(text) => setStudentCaste(text)}
       
       />  
       <TextInput
@@ -89,38 +160,62 @@ usersCollection.doc(currentUser.uid).set({
         placeholder="Contact Number"
         value={studentcontactNumber}
         keyboardType={'numeric'}
-        onChangeText={(text) => setState({...state,studentcontactNumber:{text}})}
+        onChangeText={(text) => setStudentContactNumber(text)}
       
       />
       <TextInput
         style={styles.input}
         placeholder="Date of Birth"
         value={studentdob}
-        onChangeText={(text) => setState({...state,studentdob:{text}})}
+        keyboardType='numeric'
+        onChangeText={(text) => setStudentdob(text)}
       
       />
+          <TextInput
+        style={styles.input}
+        placeholder="Date of Birth"
+        value={studentage}
+        keyboardType='numeric'
+        onChangeText={(text) => setStudentAge(text)}
+      
+      />
+       
 
+<TextInput
+        style={styles.input}
+        placeholder="B-Form No"
+        value={studentBfromNo}
+        onChangeText={(text) => setStudentBformNo(text)}
+      
+      />
+     
       
       <TextInput
+      keyboardType='numeric'
         style={styles.input}
         placeholder="GR No"
         value={studentgrNo}
-        onChangeText={(text) => setState({...state,studentgrNo:{text}})}
-      
+        onChangeText={(text) => setStudentgrNo(text)}
       />
       <TextInput
         style={styles.input}
+        keyboardType='numeric'
         placeholder="Enter Class "
         value={studentClass}
-        onChangeText={(text) => setState({...state,studentClass:{text}})}
-      
+        onChangeText={(text) => setStudentClass(text)}
       />
-
-     
-
-  <TouchableOpacity style={styles.submitButton} onPress={addStudentData}>
+      <TextInput
+        style={styles.input}
+        keyboardType='numeric'
+        placeholder="Enter Date of Admission "
+        value={studentAdmissionDate}
+        onChangeText={(text) => setStudentAdmissionDate(text)}
+      />
+  <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
     <Text style={styles.submitButtonText}>Submit</Text>
+
   </TouchableOpacity>
+  <Toast ref={(ref) => Toast.setRef(ref)} />  
 </ScrollView>
 </View>
 

@@ -41,8 +41,11 @@ export default function App() {
   return (
     <NavigationContainer>
     <Stack.Navigator>
-   
-    
+    <Stack.Screen name="Home" component={Home} 
+       options={{title:'       Government School FatehPur',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        backgroundColor:'#29819C',
+       }
+       }}/>
      <Stack.Screen name='AnotherSplashScreen' component={AnotherSplashScreen } options={{headerShown:false,statusBarColor:'#29819C'}}/>
     <Stack.Screen name="SplashScreen" component={SplashScreen}  options={{headerShown:false,statusBarColor:'#29819C'}}/>   
     {/* <Stack.Screen name="AnotherAttendenceSheet" component={AnotherAttendenceSheet}  options={{headerShown:false}}/> */}
@@ -51,56 +54,46 @@ export default function App() {
         name="Login"
         component={Login}options={{headerShown:false,statusBarColor:'#29819C'}}/>
        <Stack.Screen name="TouchableAttendance" component={TouchableAttendance} options={{title:'   Teachers  Attendence',statusBarColor:'#29819C'}}/>
-       <Stack.Screen name="Home" component={Home} 
-       options={{title:'       Government School FatehPur',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
-        backgroundColor:'#29819C',
-    
-       }
        
-       }}/>  
-
-
         <Stack.Screen name="ReadingSplash" component={ReadingSplash}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
-        <Stack.Screen name="Class1" component={Class1}  options={{title:'                         Class One',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class1" component={Class1}  options={{headerTitleAlign:'center',title:'Class One',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
-    
        }
-       
        }}/>
-        <Stack.Screen name="Class2" component={Class2} options={{title:'                         Class Two',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class2" component={Class2} options={{headerTitleAlign:'center',title:'Class Two',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',}       
        }}/>
-        <Stack.Screen name="Class3" component={Class3} options={{title:'                        Class Three',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class3" component={Class3} options={{headerTitleAlign:'center',title:'Class Three',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
     
        }
        
        }}/>
-        <Stack.Screen name="Class5" component={Class5}options={{title:'                             Class Five',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class5" component={Class5}options={{headerTitleAlign:'center',title:'Class Five',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
     
        }
        
        }}/>
-        <Stack.Screen name="Class6" component={Class6} options={{title:'                             Class Six',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class6" component={Class6} options={{headerTitleAlign:'center',title:'Class Six',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
     
        }
        
        }}/>
-        <Stack.Screen name="Class7" component={Class7} options={{title:'                             Class Seven',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class7" component={Class7} options={{headerTitleAlign:'center',title:'Class Seven',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
     
        }
        
        }}/>
-        <Stack.Screen name="Class8" component={Class8}  options={{title:'                             Class Eight',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class8" component={Class8}  options={{headerTitleAlign:'center',title:'Class Eight',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
     
        }
        
        }}/>
-      <Stack.Screen name="Class4" component={Class4} options={{title:'                             Class Four',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+      <Stack.Screen name="Class4" component={Class4} options={{headerTitleAlign:'center',title:'Class Four',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
     
        }
@@ -109,14 +102,14 @@ export default function App() {
 
         <Stack.Screen name="ForgotScreen" component={ForgotScreen}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
         <Stack.Screen name="LoginScreens1" component={LoginScreens1}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
-        <Stack.Screen name="AddTeacher" component={AddTeacher} options={{title:'        Register Teacher',statusBarColor:'#29819C'}}/>
+        <Stack.Screen name="AddTeacher" component={AddTeacher} options={{headerTitleAlign:'center',title:'Register Teacher',statusBarColor:'#29819C'}}/>
        
       <Stack.Screen name="LottieScreen" component={LottieScreen}  options={{headerShown:false,statusBarColor:'#29819C'}}/>   
-      <Stack.Screen name="AddStudent" component={AddStudent}  options={{title:  '          Register Student',statusBarColor:'#29819C'}}/>  
+      <Stack.Screen name="AddStudent" component={AddStudent}  options={{headerTitleAlign:'center',title:'Register Student',statusBarColor:'#29819C'}}/>  
       <Stack.Screen name="ViewData" component={ViewData} options={{headerShown:false,statusBarColor:'#29819C'}}/>
-      <Stack.Screen name="Attendence" component={Attendence} options={{title:'        Attendance Sheet',statusBarColor:'#29819C'}}/>
-      <Stack.Screen name="SignUP" component={SignUP} options={{title:'                Sign UP ',statusBarColor:'#29819C'}} />
-      <Stack.Screen name="ShowAttendance" component={ShowAttendance} options={{title:'                ShowAttendance',statusBarColor:'#29819C'}} />
+      <Stack.Screen name="Attendence" component={Attendence} options={{headerTitleAlign:'center',title:'Attendance Sheet',statusBarColor:'#29819C'}}/>
+      <Stack.Screen name="SignUP" component={SignUP} options={{headerTitleAlign:'center',title:'Sign UP',statusBarColor:'#29819C'}} />
+      <Stack.Screen name="ShowAttendance" component={ShowAttendance} options={{headerTitleAlign:'center',title:'ShowAttendance',statusBarColor:'#29819C'}} />
 
 
 
