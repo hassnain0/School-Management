@@ -1,14 +1,10 @@
 import React, {useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
-import { firebaseConfig} from './FireBase';
-
+import { db,} from './FireBase';
 import Util from './Toast';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import firebase from 'react-native-firebase';
-
-
-
-
+import NetInfo from '@react-native-community/netinfo';
+import firebase from 'firebase/compat'
 const AddStudent = () => {
 
 const [studentname,setStudentName]=useState(null);
@@ -21,15 +17,16 @@ const [studentdob,setStudentdob]=useState(null);
 const [studentAdmissionDate,setStudentAdmissionDate]=useState(null);
 const [studentcontactNumber,setStudentContactNumber]=useState(null);
 const [studentBfromNo,setStudentBformNo]=useState(null);
+const [isConnected,setIsConnected]=useState(false)
 
+
+//Method for adding student
   const addStudentData=async()=>{
 
-firebase.initializeApp(firebaseConfig)
-const databse=firebase.firestore();
-    const response=databse.collection('Admission').doc('Student');
-    // getLiveLocation();
+    if(isConnected){
     try{
-await response
+      const currentUser=firebase.auth().currentUser.email;
+await db.collection("Admission").doc(currentUser.uid)
 .set({
 Name:studentname,
 FatherName:studentfatherName,
@@ -41,13 +38,11 @@ BFROM:studentBfromNo,
 DateAdmission:studentAdmissionDate,
 Age:studentage,
 Status:"Enrolled",
-
         })
         .then(() => {
 
-    Util.successMsg("Student sucessfully enrolled")
-    resetform();
-    
+         Util.successMsg("Student sucessfully enrolled")
+         resetform();
       })
         .catch((error) => {
           console.error('Error writing document: ', error);
@@ -56,30 +51,34 @@ Status:"Enrolled",
     }
     catch(error){
       console.log(error)
-    } 
+    } }
+    else{
+  Util.errorMsg("Please make sure you're connected to internet connection")
+    }
   }
+
+  useState(()=>{
+    const unsubscribe=NetInfo.addEventListener(state=>{
+      setIsConnected(state.isConnected);
+    })
+    return ()=>{
+      unsubscribe();
+    }
+  })
 
   const resetform =()=>{
-    studentname=" ",
-    studentfatherName=" ",
-    studentcaste=" ",
-    studentcontactNumber=" ",
-    studentgrNo=" ",
+    setStudentName('');
+    setStudentAdmissionDate('')
+    setStudentAge('');
+    setStudentBformNo('');
+    setStudentContactNumber('');
+    setStudentgrNo('');
+    setStudentCaste('');
+    setStudentClass('');
+    setStudentfatherName('');
+    setStudentdob('');
+    }
 
-    studentdob=" ",
-    studentage=" ",
-    studentClass= " "
-
-
-  }
-
-
-  const CalculateDate=()=>{
-    let date=new Date().toLocaleDateString;
-
-    setStudentAge()
-
-  }
   const handleSubmit = () => {
   
   
@@ -173,7 +172,7 @@ Status:"Enrolled",
       />
           <TextInput
         style={styles.input}
-        placeholder="Date of Birth"
+        placeholder="Student Age"
         value={studentage}
         keyboardType='numeric'
         onChangeText={(text) => setStudentAge(text)}
@@ -200,7 +199,7 @@ Status:"Enrolled",
       <TextInput
         style={styles.input}
         keyboardType='numeric'
-        placeholder="Enter Class "
+        placeholder="Enter Class"
         value={studentClass}
         onChangeText={(text) => setStudentClass(text)}
       />

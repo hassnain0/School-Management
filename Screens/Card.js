@@ -1,81 +1,91 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import {KeyboardAvoidingView, StyleSheet,View,Button,TextInput ,Text,TouchableOpacity,Image,Alert} from 'react-native';
 import Home from './Home'
 import SignUP from './SignUP'
 import {  useState } from 'react';
 import LottieView from 'lottie-react-native';
 import ForgotScreen from './ForgotScreen';
-import { getAuth,signInWithEmailAndPassword,} from '@firebase/auth';
-import { firebaseConfig } from './FireBase';
-import { initializeApp } from '@firebase/app';
+import { signInWithEmailAndPassword, } from '@firebase/auth';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Util from './Toast'
+import { auth } from './FireBase';
+import NetInfo from '@react-native-community/netinfo'
+
   export default  function Card({navigation}){
  
-  const [myEmail,setEmail] =useState('');
-  const [myPassword,setPassword] =useState('');
-  const [message,setMessage] =useState('');
+  const [myEmail,setEmail] =useState(null);
+  const [myPassword,setPassword] =useState(null);
+  const [isConnected,setIsConnected]=useState(false);
 
-
-  const app=initializeApp(firebaseConfig);
-  const  auth=getAuth(app);
-
-
-  
+ 
+  useEffect(()=>{
+const unsubscribe=NetInfo.addEventListener(state=>{
+  setIsConnected(state.isConnected);
+})
+return ()=>{
+  unsubscribe();
+}
+  })
+  //SignUp Method
+  const SignUpMethod=()=>{
+    navigation.navigate("SignUP")
+  }
+  //Forgot Screen navigation
+    const ForgotScreen=()=>{
+    navigation.navigate("ForgotScreen")
+  }
   const handleLogin=()=>{
-    if(!myEmail||!myPassword){
-      Alert.alert('Please enter email and password')
+   if(myEmail==null){
+      Util.errorMsg("Please enter email")
+    }
+    if(myPassword==null){
+      Util.errorMsg("Please enter password")
     }
    else{
+    if(isConnected){
     signInWithEmailAndPassword(auth,myEmail, myPassword).then(() => {
-    navigation.navigate(Home)
-    
+      navigation.navigate("Home")
   }).catch(error=>{
     if(error.code=='auth/too-many-request'){
-      Alert.alert('Too many wrong attempts ! Account Disabled please reset your password')
+     Util.errorMsg("Too many request due Account disabled")
     }
     if(error.code=='auth/wrong-password'){
-      Alert.alert('Wrong Password')
+      Util.errorMsg("Wrong Password")
     }
-     if(error.code=='auth/too-many-request'){
-      Alert.alert(
-        <LottieView source={require('../LottieFiles/114427-attendance-loader.json')}></LottieView>
-      )
-    }
+   if(error.code=='auth/invalid-email'){
+    Util.errorMsg("Invalid Email")
+   }
+   if(error.code=='auth/user-not-found'){
+    Util.errorMsg("User not found")
+   }
   })
 }
-    
-  
+else{
+  Util.errorMsg("Please connect Internet Connection");1
+}
+}
   }
   return(
-      
-
-      
-      <KeyboardAvoidingView>
+     <KeyboardAvoidingView>
       <View style={styles.Cardcontainer} >
         <View style={styles.NestedHeader}>
         <LottieView source={require('../LottieFiles/Example.json')} autoPlay={true} style={styles.ImageContainer}></LottieView>
        < Text style={{color:'#EDEDED', fontWeight:'bold',fontSize:25 , paddingBottom:50, marginTop:20,}}>  Government School     </Text></ View>
         <TextInput textAlign='center' placeholder='Enter email'  value={myEmail} auto onChangeText={text=>setEmail(text)} style={styles.InputContainer} ></TextInput>
-      
-<TextInput textAlign='center' placeholder='Enter password'  secureTextEntry={true}  value={myPassword} onChangeText={text=>setPassword(text)} style={styles.InputContainer}></TextInput>
-<TouchableOpacity  style={styles.submitButton}onPress={handleLogin}>
+      <TextInput textAlign='center' placeholder='Enter password'  secureTextEntry={true}  value={myPassword} onChangeText={text=>setPassword(text)} style={styles.InputContainer}></TextInput>
+        <TouchableOpacity  style={styles.submitButton}onPress={handleLogin}>
      <Text style={styles.submitButtonText}>Login</Text>
      </TouchableOpacity>
-     <TouchableOpacity  style={styles.submitButton}onPress={()=>(navigation.navigate(SignUP))}>
+     <TouchableOpacity  style={styles.submitButton}onPress={SignUpMethod}>
      <Text style={styles.submitButtonText}>SignUP</Text>
      </TouchableOpacity>
-   
-     <TouchableOpacity onPress={()=>(navigation.navigate(ForgotScreen))}>
-     <Text style={styles.TextContainer}>                          Forgot Pasword ?</Text>
-     
-     </TouchableOpacity>
-  
-   
-
-      </View>
-      <Text>{message}</Text>
+   <TouchableOpacity onPress={ForgotScreen}>
+     <Text style={styles.TextContainer}>Forgot Pasword ?</Text>
+          </TouchableOpacity>
+  </View>
+   <Toast ref={(ref)=>Toast.setRef(ref)}/>
       </KeyboardAvoidingView>
-
     )
 }
 const styles = StyleSheet.create({
@@ -141,8 +151,9 @@ const styles = StyleSheet.create({
       },
       submitButtonText: {
       color: "#fff",
-      fontWeight: "100",
+  
       fontSize: 15,
+      fontStyle:'bold'
       },
 
     TextContainer:{
@@ -150,6 +161,7 @@ const styles = StyleSheet.create({
       color:'#EDEDED',
       fontWeight:'normal',
       fontSize:15,
+      alignContent:'center'
       
     }
 

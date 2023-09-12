@@ -1,49 +1,106 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView} from 'react-native';
+import {  ActivityIndicator } from 'react-native-paper';
+import { db } from './FireBase';
+import Utils from './Toast';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
-const TouchableAttendanceSheet = () => {
-  const [attendance, setAttendance] = useState({});
+const TouchableAttendance = () => {
+  const [loading, setLoading] = useState(true);
+  const [attendanceData, setAttendanceData] = useState([]);
+ 
 
-  //Method
+  //Fetching user name
+  useEffect(()=>{
+   
+  const fetch=async()=>{
+    try{
+      const names=[];
+    const collection= db.collection("Faculty").get();
+   
+  const data= (await collection).docs.map((doc) => doc.data().Name)
+    
+    names.push(...data)
+    setLoading(false);
+    setAttendanceData(names);
+  }
 
-const handleSubmit=()=>{
-
+catch(error){
+  console.log(error)
 }
-  //Method for attendance
+  }
+  fetch();
 
-  const toggleAttendance = (name) => {
+},[])
+const [attendanceStatus, setAttendanceStatus] = useState([]);
+
+// ...
+
+useEffect(() => {
+  // Initialize attendanceStatus with false values
+  setAttendanceStatus(new Array(attendanceData.length).fill(false));
+}, [attendanceData]);
+
+// ...
+
+
+ const toggleAttendance = (name) => {
 
  //Setter for setting attendance
-    setAttendance({
-      ...attendance,
-      [name]: !attendance[name],
+    setAttendanceStatus({
+      ...attendanceStatus,
+      [name]: !attendanceStatus[name],
     });
+  }; 
+  const saveAttendance = async () => {
+    setLoading(true);
+    const attendenceRecords=[];
+    attendanceData.forEach((name)=>{
+      const status=attendanceStatus[name]? 'Absent' : 'Present';
+      attendenceRecords.push({name,status});
+
+    });
+   const date=new Date().toLocaleDateString();
+  
+    try{ 
+      await db.collection("StaffAttendence").add({
+        mydate:date,
+        Records:attendenceRecords,
+}      )  
+       Utils.successMsg("Today's attendence sucessfully uploaded")
+    }catch(error){
+          console.log(error)
+    }
+ 
+    setLoading(false);
   };
 
-  //Array for storing names of faculty
-  const names = [' Dr Asghar Ali Manjhoto', ' Dr Liaquat  Memon',' Dr Qurban Ali Memon', 'Dr Mehran Ali Memon', ' Dr Arbab Ali Samejo', 'Dr Irfan Ali Bacho','Dr Mam Sammar Z','Dr Mam Sanam Narejo','Dr Moazam ',' Dr Rizwan Balouch','Dr Shahnawaz Talpur','Dr Bushra Memon','Dr Tauha Hussain', 'Dr Anwar Memon', 'Dr Rashid Memon'];
-
   return (
+ 
     <View style={styles.container}>
         <ScrollView>
-      {names.map((name) => (
+      {attendanceData.map((name) => (
         <TouchableOpacity
           key={name}
           onPress={() => toggleAttendance(name)}
           style={[
             styles.button,
-            { backgroundColor: attendance[name] ? 'red' : 'green' },
+            { backgroundColor: attendanceStatus[name] ? 'red' : 'green' },
           ]}
         >
           <Text style={styles.buttonText}>{name}</Text>
         </TouchableOpacity>
 
       ))}
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-    <Text style={styles.submitButtonText}>Submit</Text>
-  </TouchableOpacity>
+   
       </ScrollView>
       
+    {loading ?(  
+   <TouchableOpacity style={styles.submitButton} onPress={saveAttendance}>
+      <Text style={styles.submitButtonText} >Upload Attendance</Text>
+      </TouchableOpacity>
+  ):null}
+      <Toast  ref={(ref)=>Toast.setRef(ref)}/> 
     </View>
   );
 };
@@ -52,7 +109,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    
   },
   button: {
     padding: 10,
@@ -73,7 +129,6 @@ submitButton: {
   marginRight:10,
   marginBottom:10,
   borderRadius:5,
-
   paddingTop:10,
   backgroundColor: "#333",
   padding: 16,
@@ -82,4 +137,4 @@ submitButton: {
   },
 });
 
-export default TouchableAttendanceSheet;
+export default TouchableAttendance;

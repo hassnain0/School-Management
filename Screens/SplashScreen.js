@@ -7,10 +7,6 @@ import ReadingSplash from './ReadingSplash';
 import { useFocusEffect } from '@react-navigation/native';
 import { moderateScale, verticalScale } from './Dimension';
 
-
-
-
-
 const   SplashScreen=({navigation})=>{
  
   useFocusEffect(
@@ -26,11 +22,18 @@ const   SplashScreen=({navigation})=>{
       };
     }, [])
   );
+
+  const SplashScreenNavigation=()=>{
+    navigation.navigate("ReadingSplash")
+  }
+  const SkipNavigation=()=>{
+    navigation.navigate("Login")
+  }
     return(
         
  
  <View style={styles.MainContainer} >
-       <View   style={styles.ViewCOntainer}>
+       <View   >
       
        <LottieView  source={require('../LottieFiles/Books.json')} autoPlay={true} style={styles.Cardcontainer}>
        </LottieView>
@@ -38,17 +41,19 @@ const   SplashScreen=({navigation})=>{
     
       </View>
       <View>
-      <TouchableOpacity onPress={()=>(navigation.navigate(Login))}>
-      <Text style={styles.TextContainer}>                                                  Skip </Text>
+      <TouchableOpacity onPress={SkipNavigation}>
+      <Text style={styles.TextContainer}>Skip</Text>
       </TouchableOpacity> 
       </View>
       <Text style={{fontSize:20,paddingTop:500,fontStyle:'normal',marginTop:20,}}>
         It was no accident that the first word of the Quran to be revealed was: Read.
 </Text>
-    <TouchableOpacity onPress={()=>(navigation.navigate(ReadingSplash))} > 
+    <View style={styles.LottieContainer}>
+    <TouchableOpacity onPress={SplashScreenNavigation}  > 
        
-  <LottieView source={require('../LottieFiles/67395-next.json')}  style={styles.ButtonContainer} autoPlay={true}></LottieView>
-    </TouchableOpacity>
+       <LottieView source={require('../LottieFiles/67395-next.json')}  style={styles.ButtonContainer} autoPlay={true}></LottieView>
+         </TouchableOpacity>
+    </View>
 </View>
 
 
@@ -61,17 +66,18 @@ export default SplashScreen;
 const styles=StyleSheet.create({
 
     TextContainer:{
+alignSelf:'flex-end',
 fontWeight:'bold',
-fontSize:25,
+fontSize:30,
+paddingRight:20,
 color:'#29819C',
 paddingTop:20,
-
     },
     MainContainer:{
     flex:1,
-    flexDirection:'column'
-    
+    flexDirection:'column'    
 },
+
     Cardcontainer:{
         padding:190,
         paddingTop:500,
@@ -87,8 +93,8 @@ paddingTop:20,
           },
           ButtonContainer: {
             borderRadius:50,
-            paddingLeft:verticalScale(80),
-            padding:moderateScale(10),
+            paddingLeft:verticalScale(100),
+            
             
             width:200,
             

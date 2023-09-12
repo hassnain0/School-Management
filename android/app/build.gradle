@@ -1,5 +1,9 @@
 apply plugin: "com.android.application"
 
+
+
+apply plugin: 'com.google.gms.google-services'
+
 import com.android.build.OutputFile
 
 /**
@@ -131,7 +135,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 /**
  * Architectures to build native code for.
  */
-def reactNativeArchitectures() {
+def reactNativeArchitectures() { 
     def value = project.getProperties().get("reactNativeArchitectures")
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
@@ -276,6 +280,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+     implementation platform('com.google.firebase:firebase-bom:32.1.0')
+
+//New code
+implementation 'com.google.android.gms:play-services-base';
+implementation 'com.' 
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

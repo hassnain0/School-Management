@@ -1,15 +1,10 @@
 import React from 'react-native'
-import {StyleSheet,View, Button,Text,TouchableOpacity} from 'react-native'
+import {StyleSheet,View,Text} from 'react-native'
 import LottieView from 'lottie-react-native'
-import AddStudent from './AddStudent'
 
 export default function TeacherAttendance({navigation}){
     return(
-
-
         <View  color='#1F6478' style={style.Cardcontainer}>
-      
-     
         <LottieView source={require('../LottieFiles/12594-attendence.json')}  autoPlay={true}></LottieView>
          <Text style={{ fontSize:20, color:'black'}}>Staff's Attendance</Text> 
         </View>

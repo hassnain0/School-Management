@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "799707876860",
+    "project_id": "project-125d7",
+    "storage_bucket": "project-125d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799707876860:android:de6de736aff492d1c77679",
+        "android_client_info": {
+          "package_name": "com.School.Hassnain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799707876860-uvji6qgcti9b1a2g6sbssvbcd44f3fel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0GTTIK0Y2r68GLJ6HsowZiBuT3NXkzfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799707876860-uvji6qgcti9b1a2g6sbssvbcd44f3fel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799707876860:android:b84f50b2753e96fbc77679",
+        "android_client_info": {
+          "package_name": "hassnain.School.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799707876860-uvji6qgcti9b1a2g6sbssvbcd44f3fel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0GTTIK0Y2r68GLJ6HsowZiBuT3NXkzfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799707876860-uvji6qgcti9b1a2g6sbssvbcd44f3fel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

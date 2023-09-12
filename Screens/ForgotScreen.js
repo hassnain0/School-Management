@@ -1,41 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Alert,TouchableOpacity, StyleSheet,Image, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { firebaseConfig } from './FireBase';
-import { sendPasswordResetEmail ,getAuth} from '@firebase/auth';
-import { initializeApp } from '@firebase/app';
+import Util from './Toast'
 import Login from './Login';
+import NetInfo from '@react-native-community/netinfo';
 import Home from './Home';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { sendPasswordResetEmail } from '@firebase/auth';
 const ForgotScreen= ({navigation}) => {
-  const [email, setEmail] = useState('');
- 
-//Here usestate is used to initialize variables
-  const [message,setMessage] = useState('');
+  const [email, setEmail] = useState(null);
+  const [isConnected,setIsConnected]=useState(false);
 
-  const app=initializeApp(firebaseConfig);
-  const  auth=getAuth(app);
+  useEffect(()=>{
+    const unsubscribe=NetInfo.addEventListener(state=>{
+      setIsConnected(state.isConnected);
 
+    })
+    return ()=>{
+   unsubscribe();
+    }
+  })
   const handleSubmit = () => {
-   sendPasswordResetEmail(auth,email)
+    if(email==null){
+      Util.errorMsg("Please enter email")
+    }
+    if(isConnected){
+   sendPasswordResetEmail(email)
       .then(() => {
-        Alert.alert("Password reset email sent successfully!");
-        navigation.navigate(Login)
-        
-      
+        Util.errorMsg("Password reset email sent successfully!");
+        navigation.navigate("Login")
       })
       .catch((error) => {
        if(error.code=='auth/invalid-email')
        setMessage('Invalid Email Entered')
-      });
-    
-      
-    }
-    if(!email){
-      
-    } 
-   
-  
-
+      });}
+      else{
+        Util.errorMsg("Please make sure you are connected to  internet connection")
+      }
+      }
   return (
     <View style={styles.container}>
      
@@ -47,17 +49,11 @@ const ForgotScreen= ({navigation}) => {
         value={email}
         onChangeText={setEmail}
       />
-
-      
   <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-    <Text style={styles.submitButtonText}>Reset Password</Text>
+    <Text style={styles.submitButtonText}>Send Email</Text>
   </TouchableOpacity>
-  <Text style={{fontSize:20, justifyContent:'center', alignItems:'center', color:'red'}}>{message}</Text>
-
-
-
-     
-    </View>
+  <Toast ref={(ref) => Toast.setRef(ref)} /> 
+</View>
   );
 };
 

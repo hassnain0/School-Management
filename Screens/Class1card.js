@@ -30,15 +30,8 @@ const style=StyleSheet.create({
         paddingLeft:150,
         margin:20,
         alignItems:'center'
-        
-      
-      },
-
-ViewContainer:{
-
-},
-
-              LottieContainer:{
+  },
+ LottieContainer:{
                 width:100,
               }
 });

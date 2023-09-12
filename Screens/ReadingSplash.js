@@ -2,7 +2,6 @@
 import React from 'react-native';
 import { StyleSheet,View,Button,TextInput ,Text,TouchableOpacity,Image} from 'react-native';
 import LottieView from 'lottie-react-native'
-import LoginScreens1 from './LoginScreens1';
 import Login from './Login'
 
 
@@ -15,7 +14,7 @@ const   ReadingSplash=({navigation})=>{
       </View>
      <View >
        <TouchableOpacity onPress={()=>(navigation.navigate('Login'))}>  
-             <Text style={{fontWeight:'bold',fontSize:25, color:'#29819C'}}>                                              Skip</Text>
+             <Text style={styles.TextContainer}>Skip</Text>
        </TouchableOpacity>
 
      </View>
@@ -30,7 +29,14 @@ export default ReadingSplash;
 
 
 const styles=StyleSheet.create({
-
+  TextContainer:{
+    alignSelf:'flex-end',
+    fontWeight:'bold',
+    fontSize:30,
+    paddingLeft:280,
+    color:'#29819C',
+    paddingTop:3,
+        },
   
     Cardcontainer:{
   padding:170,

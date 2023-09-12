@@ -1,11 +1,14 @@
 import {KeyboardAvoidingView, StyleSheet,View,Button,TextInput ,ImageBackground,Image,ScrollView, BackHandler,Text,TouchableOpacity} from 'react-native';
 import Card  from './Card';
-import React from 'react'
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { moderateScale, verticalScale ,horizontalScale} from './Dimension';
+import Home from './Home';
 
 const Login=({navigation})=>{
+
   useFocusEffect(
+   
     React.useCallback(() => {
       const onBackPress = () => {
         return true;
