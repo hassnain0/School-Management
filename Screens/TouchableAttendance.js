@@ -6,7 +6,7 @@ import Utils from './Toast';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const TouchableAttendance = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [attendanceData, setAttendanceData] = useState([]);
  
 
@@ -21,7 +21,7 @@ const TouchableAttendance = () => {
   const data= (await collection).docs.map((doc) => doc.data().Name)
     
     names.push(...data)
-    setLoading(false);
+    setLoading(true);
     setAttendanceData(names);
   }
 

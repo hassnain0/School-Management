@@ -39,7 +39,7 @@ export default function App() {
       <Stack.Screen name="Login" component={Login}options={{headerShown:false,statusBarColor:'#29819C'}}/>
        <Stack.Screen name="TouchableAttendance" component={TouchableAttendance} options={{title:'Teachers  Attendence',headerTitleAlign:'center',statusBarColor:'#29819C'}}/>
         <Stack.Screen name="ReadingSplash" component={ReadingSplash}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
-        <Stack.Screen name="Class" component={Class}  options={{headerTitleAlign:'center',title:'Class',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+        <Stack.Screen name="Class" component={Class}  options={{headerTitleAlign:'center',title:'Class',headerTintColor:'#ffff',statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
        }
        }}/>

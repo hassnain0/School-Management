@@ -61,11 +61,17 @@ else{
 
   }
   if (err.code === 'auth/invalid-email') {
-Util.errorMsg("Invalid Email");
+  Util.errorMsg("Invalid Email");
   }
 
   if (err.code === 'auth/email-already-in-use') {
     Util.errorMsg("Email Already in use")
+  }
+  if (err.code === 'auth/weak-password') {
+    Util.errorMsg("Please input Strong password")
+  }
+  else{
+    console.log(err.code)
   }
 });}
 

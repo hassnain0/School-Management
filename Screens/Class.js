@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View,ScrollView,StyleSheet,Text,TouchableOpacity } from 'react-native';
 import { Table, Row} from 'react-native-table-component';
+import { db,firebase } from './FireBase';
+import Util from './Toast';
+
 
 const Class=({route})=>{
    const [tableHead, setTableHead] = useState(['S#No','Name', 'FatherName', 'Caste','Age','Class','DateOFBirth','DateofAdmsision','B-Form NO','GR NO','Status','Leave']);
    const [tableData,setTableData]=useState([]);
    const [loading,setLoading]=useState(true);
-
+  const [deleteCount,setDeleteCount]=useState(null)
 //React Hooks load first when Screen moves
    useEffect(() => {
      const fetchData = async () => {
@@ -19,14 +22,45 @@ const Class=({route})=>{
     };
     fetchData();
     setLoading(false)
-  },[]);
+  },[deleteCount]);
 
-  const LeaveStudent=()=>{
+  const LeaveStudent=(studentData)=>{
+    
+    const bformValue = studentData.BFROM; // Get the value from studentData
+console.log(studentData)
+    if (bformValue !== undefined && bformValue !== null) {
+      // Create the Firestore query with the valid field value
+      db.collection('Admission')
+        .where('BFORM', '==', bformValue)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // Update the document as needed
+            doc.ref.update({
+              Status: "Leave"
+            })
+            .then(() => {
+              Util.successMsg("Student Successfully got leave");
+              setDeleteCount((prev) => prev + 1);
+            })
+            .catch((error) => {
+              console.error('Error updating document:', error);
+            });
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching documents:', error);
+        });
+    } else {
+      console.error('Invalid or undefined value for BFORM');
+    }
+    
     
   }
 
     return (
       <ScrollView horizontal>
+        
        <View style={styles.spinnerContainer}>
       </View>
       <View>
@@ -75,8 +109,8 @@ const Class=({route})=>{
       <Text style={{textAlign:'center', color:'green',fontSize:16}}>{rowData.Status}</Text> 
       </View>,
       <View style={{width:80,backgroundColor:'red',alignSelf:'center' }}>
-        <TouchableOpacity onPress={LeaveStudent}>
-      <Text style={{textAlign:'center', color:'white',fontSize:16}}>Leave</Text>    
+        <TouchableOpacity onPress={() => LeaveStudent(rowData)}>
+      <Text style={{textAlign:'center', color:'white',fontSize:16,elevation:3,borderRadius:1}}>Leave</Text>    
       </TouchableOpacity>
       </View>,
       

@@ -1,10 +1,10 @@
 import React, {useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
-import { db,} from './FireBase';
+import { db, firebase} from './FireBase';
 import Util from './Toast';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import NetInfo from '@react-native-community/netinfo';
-import firebase from 'firebase/compat'
+
 const AddStudent = () => {
 
 const [studentname,setStudentName]=useState(null);
@@ -117,6 +117,10 @@ Status:"Enrolled",
   }
   if(studentClass==''||studentClass==null){
     Util.errorMsg("Please enter student class")
+    return ;
+  }
+  if(studentClass>8){
+    Util.errorMsg("Class must be less or equal than 8")
     return ;
   }
  else
