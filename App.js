@@ -42,7 +42,10 @@ export default function App() {
        }
        }}/>
         <Stack.Screen name="ForgotScreen" component={ForgotScreen}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
-        <Stack.Screen name="StaffData" component={StaffData} options={{headerShown:false,statusBarColor:'#29819C'}}/>
+        <Stack.Screen name="StaffData" component={StaffData}  options={{headerTitleAlign:'center',title:'StaffData',headerTintColor:'#ffff',statusBarColor:'#29819C',headerStyle:{
+        backgroundColor:'#29819C',
+       }
+       }}/>
       <Stack.Screen name="ViewData" component={ViewData} options={{headerShown:false,statusBarColor:'#29819C'}}/>
       <Stack.Screen name="Attendence" component={Attendence} options={{headerTitleAlign:'center',title:'Attendance Sheet',statusBarColor:'#29819C'}}/>
       <Stack.Screen name="SignUP" component={SignUP} options={{headerTitleAlign:'center',title:'Sign UP',statusBarColor:'#29819C'}} />
