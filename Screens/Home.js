@@ -90,7 +90,7 @@ const lottieAddresses = [
     myPath: require('../LottieFiles/86900-file-icon-animation.json')
   },
   {
-    onPress:()=>navigation.navigate("ViewData"),
+    onPress:()=>navigation.navigate("StaffData"),
     title: 'Staff Data',
     myPath: require('../LottieFiles/31696-file-upload.json')
   }

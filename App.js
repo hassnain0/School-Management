@@ -11,16 +11,14 @@ import  ViewData from './Screens/ViewData';
 import Attendence from './Screens/Attendence';
 import SignUP from './Screens/SignUP';
 import Card from './Screens/Card';
-import LottieScreen from './Screens/LottieScreen';
 import SplashScreen from './Screens/SplashScreen';
 import ReadingSplash from './Screens/ReadingSplash';
 import TouchableAttendance from './Screens/TouchableAttendance';
-import RegisterStudent from './Screens/Registerstudent';
 import AddTeacher from './Screens/AddTeacher';
 import Class from './Screens/Class';
-
 import ShowAttendance from './Screens/ShowAttendance';
 import AnotherSplashScreen from './Screens/AnotherSplashScreen';
+import StaffData from './Screens/StaffData';
 
 
 const Stack = createNativeStackNavigator();
@@ -44,6 +42,7 @@ export default function App() {
        }
        }}/>
         <Stack.Screen name="ForgotScreen" component={ForgotScreen}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
+        <Stack.Screen name="StaffData" component={StaffData} options={{headerShown:false,statusBarColor:'#29819C'}}/>
       <Stack.Screen name="ViewData" component={ViewData} options={{headerShown:false,statusBarColor:'#29819C'}}/>
       <Stack.Screen name="Attendence" component={Attendence} options={{headerTitleAlign:'center',title:'Attendance Sheet',statusBarColor:'#29819C'}}/>
       <Stack.Screen name="SignUP" component={SignUP} options={{headerTitleAlign:'center',title:'Sign UP',statusBarColor:'#29819C'}} />
