@@ -13,7 +13,11 @@ import { useFocusEffect, useNavigation, } from '@react-navigation/native';
 import Utils from './Toast';
 import { auth, db } from './FireBase';
  import Login from './Login'
+import Toast from 'react-native-toast-message';
+import Leave from './Leave';
+
 const Home=({navigation})=>{
+  const [tableHead1, setTableHead1] = useState(['S#No', 'Name', 'FatherName', 'Caste', 'Age', 'Class', 'DateOFBirth', 'DateofAdmsision', 'B-Form NO', 'GR NO', 'Status', ]);
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -63,6 +67,64 @@ const Home=({navigation})=>{
       );
       navigation.replace("Login")
   }
+  const StaffDataScreen=async()=>{
+    const collectionRef = db
+    .collection('Faculty')
+    .where('Status', '==', 'Working')
+        const snapshot = await collectionRef.get();
+        
+        if(snapshot.empty){
+          Utils.errorMsg("Record not found ")
+          return;
+        }
+        else{
+          navigation.navigate("StaffData")
+        }
+  }
+  const LeaveStudent=async()=>{
+    try {
+        const collectionRef = db
+    .collection('Admission')
+    .where('Status', '==', 'Leave')
+        const snapshot = await collectionRef.get();
+        
+        if(snapshot.empty){
+          Utils.errorMsg("Record not found ")
+          return;
+        }
+        const data = snapshot.docs.map((doc) => doc.data());
+
+        navigation.navigate('Leave', {
+          TableData: data,
+          TableHead:tableHead1
+        });
+        
+      } catch (error) {
+        console.log(error);  
+      }
+    };
+    const LeaveFaculty=async()=>{
+      try {
+          const collectionRef = db
+      .collection('Faculty')
+      .where('Status', '==', 'Leave')
+          const snapshot = await collectionRef.get();
+          
+          if(snapshot.empty){
+            Utils.errorMsg("Record not found ")
+            return;
+          }
+          const data = snapshot.docs.map((doc) => doc.data());
+
+          navigation.navigate('LeaveFaculty', {
+            TableData: data,
+                  });
+          
+        } catch (error) {
+          console.log(error);  
+        }
+      };
+  
 const lottieAddresses = [
   {
     onPress:()=>navigation.navigate("AddStudent"),
@@ -90,17 +152,32 @@ const lottieAddresses = [
     myPath: require('../LottieFiles/86900-file-icon-animation.json')
   },
   {
-    onPress:()=>navigation.navigate("StaffData"),
+    onPress:()=>StaffDataScreen(),
     title: 'Staff Data',
     myPath: require('../LottieFiles/31696-file-upload.json')
-  }
+  },
+  {
+    onPress:()=>LeaveStudent(),
+    title: 'Leaved Student',
+    myPath: require('../LottieFiles/Student.json')
+  },
+  {
+    onPress:()=>LeaveFaculty(),
+    title: 'Leaved Faculty',
+    myPath: require('../LottieFiles/TeacherList.json')
+  },
+  
+
+
 ];
 
 const renderCards = () => {
   return lottieAddresses.map((address, index) => (
     <TouchableOpacity key={index} onPress={address.onPress}>
       <HomeCardComponent title={address.title} myPath={address.myPath} />
+    <Toast ref={(ref)=> Toast.setRef(ref)}/>
     </TouchableOpacity>
+   
   ));
 };
 
@@ -121,6 +198,8 @@ function HomeCardComponent({ title, myPath }) {
     <View style={styles.cardContainer}>
       <LottieView source={myPath} autoPlay loop />
       <Text style={styles.title}>{title}</Text>
+      
+
     </View>
   );
 }
@@ -160,7 +239,7 @@ function TotalStudentCardComponent() {
       fetchTotalStudents();
 
       return () => {
-        // Cleanup function when the screen loses focus (optional)
+     
       };
     }, []))
 

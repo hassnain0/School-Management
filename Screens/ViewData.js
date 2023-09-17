@@ -13,24 +13,37 @@ const ViewData=({navigation})=>{
     
   
     try {
-      const collectionRef = db
-  .collection('Admission')
-  .where('Status', '==', 'Enrolled').where('Class','==',Class);
+      const collectionRef = db.collection('Admission').where('Status', '==', 'Enrolled').where('Class', '==', Class);
+
       const snapshot = await collectionRef.get();
       
-      if(snapshot.empty){
-        Utils.errorMsg("Record not found ")
+      if (snapshot.empty) {
+        Utils.errorMsg("Record not found ");
         return;
       }
-      const data = snapshot.docs.map((doc) => doc.data());
-
-
-      console.log(data)
-      navigation.navigate('Class', {
-        TableData: data,
+      
+      const currentDate = new Date(); // Get the current date
+      const data = snapshot.docs.map((doc) => {
+        const admissionDate = doc.data().DateAdmission // Assuming 'AdmissionDate' is the field containing the admission date
+        // Calculate the difference in days between the admission date and the current date
+        const daysSinceAdmission = Math.floor((currentDate - admissionDate) / (1000 * 60 * 60 * 24));
+        const threshold=30;
+        // Decide whether to update the class based on your logic (e.g., if daysSinceAdmission is greater than a certain threshold)
+        if (daysSinceAdmission > threshold) {
+          // Update the class here
+          doc.ref.update({ Class: newClass }); // Assuming 'newClass' is the new class you want to assign
+        }
+        
+        return doc.data();
       });
       
-    } catch (error) {
+      console.log(data);
+      
+      navigation.navigate('Class', {
+        TableData: data,
+      })
+
+     } catch (error) {
       console.log(error);  
     }
   };

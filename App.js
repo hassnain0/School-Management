@@ -19,6 +19,8 @@ import Class from './Screens/Class';
 import ShowAttendance from './Screens/ShowAttendance';
 import AnotherSplashScreen from './Screens/AnotherSplashScreen';
 import StaffData from './Screens/StaffData';
+import Leave from './Screens/Leave';
+import LeaveFaculty from './Screens/LeaveFaculty';
 
 
 const Stack = createNativeStackNavigator();
@@ -38,6 +40,14 @@ export default function App() {
        <Stack.Screen name="TouchableAttendance" component={TouchableAttendance} options={{title:'Teachers  Attendence',headerTitleAlign:'center',statusBarColor:'#29819C'}}/>
         <Stack.Screen name="ReadingSplash" component={ReadingSplash}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
         <Stack.Screen name="Class" component={Class}  options={{headerTitleAlign:'center',title:'Class',headerTintColor:'#ffff',statusBarColor:'#29819C',headerStyle:{
+        backgroundColor:'#29819C',
+       }
+       }}/>
+        <Stack.Screen name="LeaveFaculty" component={LeaveFaculty}  options={{headerTitleAlign:'center',title:'Leave',headerTintColor:'#ffff',statusBarColor:'#29819C',headerStyle:{
+        backgroundColor:'#29819C',
+       }
+       }}/>
+       <Stack.Screen name="Leave" component={Leave}  options={{headerTitleAlign:'center',title:'Leave',headerTintColor:'#ffff',statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C',
        }
        }}/>
