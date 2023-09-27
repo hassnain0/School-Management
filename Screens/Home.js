@@ -13,11 +13,15 @@ import { useFocusEffect, useNavigation, } from '@react-navigation/native';
 import Utils from './Toast';
 import { auth, db } from './FireBase';
  import Login from './Login'
+
 import Toast from 'react-native-toast-message';
 import Leave from './Leave';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-const Home=({navigation})=>{
-  const [tableHead1, setTableHead1] = useState(['S#No', 'Name', 'FatherName', 'Caste', 'Age', 'Class', 'DateOFBirth', 'DateofAdmsision', 'B-Form NO', 'GR NO', 'Status', ]);
+const Drawer=createDrawerNavigator();
+
+function HomeScreen({navigation}){
+    const [tableHead1, setTableHead1] = useState(['S#No', 'Name', 'FatherName', 'Caste', 'Age', 'Class', 'DateOFBirth', 'DateofAdmsision', 'B-Form NO', 'GR NO', 'Status', ]);
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -30,16 +34,17 @@ const Home=({navigation})=>{
       };
     }, [])
   );
-    useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={handlelogout}>
-          <Image source={require('../assets/LogoutButton.png')} style={{width:35,height:30,marginleft:15}}></Image>
-        </TouchableOpacity>
-      ),
-    });
-  }, [])
-  const handlelogout=()=>{
+  HomeScreen.navigationOptions = ({ navigation }) => ({
+    title: 'Home',
+    headerLeft: () => (
+      <Button
+        title="Open Drawer"
+        onPress={() => navigation.openDrawer()}
+      />
+    ),
+  });
+  
+  function handlelogout(){
     Alert.alert(
       'Logout',
       'Are you sure you want  to logout?',
@@ -60,7 +65,8 @@ const Home=({navigation})=>{
     );
     return true;
   };
-  const logout = () => {
+
+  const  logout=()=> {
     auth
       .signOut()
       .then(() => Utils.successMsg("Successfully logout")
@@ -193,6 +199,22 @@ return (
   
 );
 }
+
+export default function Home({ navigation }) {
+  return (
+    <View style={{ flex: 1 }}>
+      <DrawerNavigation />
+    </View>
+  );
+}
+function DrawerNavigation() {
+  return (
+      <Drawer.Navigator initialRouteName="HomeScreen">
+      <Drawer.Screen name="Home" component={HomeScreen} options={{headerTitleAlign:'center'}} />
+      <Drawer.Screen name="Logout" component={handlelogout} options={{headerTitleAlign:'center'}} />
+      </Drawer.Navigator>
+  );
+}
 function HomeCardComponent({ title, myPath }) {
   return (
     <View style={styles.cardContainer}>
@@ -266,7 +288,7 @@ function TotalStudentCardComponent() {
     </View>
   );
 }
-export default Home;
+
 
 const styles=StyleSheet.create
   ({

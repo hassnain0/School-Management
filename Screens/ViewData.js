@@ -22,28 +22,17 @@ const ViewData=({navigation})=>{
         return;
       }
       
-      const currentDate = new Date(); // Get the current date
-      const data = snapshot.docs.map((doc) => {
-        const admissionDate = doc.data().DateAdmission // Assuming 'AdmissionDate' is the field containing the admission date
-        // Calculate the difference in days between the admission date and the current date
-        const daysSinceAdmission = Math.floor((currentDate - admissionDate) / (1000 * 60 * 60 * 24));
-        const threshold=30;
-        // Decide whether to update the class based on your logic (e.g., if daysSinceAdmission is greater than a certain threshold)
-        if (daysSinceAdmission > threshold) {
-          // Update the class here
-          doc.ref.update({ Class: newClass }); // Assuming 'newClass' is the new class you want to assign
-        }
-        
-        return doc.data();
-      });
-      
-      console.log(data);
-      
+       const data = snapshot.docs.map((doc) => doc.data());
+
+
+      console.log(data)
       navigation.navigate('Class', {
         TableData: data,
-      })
+      });
+      
+    } 
 
-     } catch (error) {
+ catch (error) {
       console.log(error);  
     }
   };

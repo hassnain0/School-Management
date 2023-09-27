@@ -32,7 +32,7 @@ export default function App() {
      <Stack.Screen name='AnotherSplashScreen' component={AnotherSplashScreen } options={{headerShown:false,statusBarColor:'#29819C'}}/>
      <Stack.Screen name="AddTeacher" component={AddTeacher} options={{headerTitleAlign:'center',title:'Register Teacher',statusBarColor:'#29819C'}}/>
      <Stack.Screen name="Home" component={Home} 
-       options={{title:'Government School FatehPur',headerTitleAlign:'center',headerTintColor:'#ffff',headerBackVisible:false ,statusBarColor:'#29819C',headerStyle:{
+       options={{title:'Government School FatehPur',headerTitleAlign:'center',headerTintColor:'#ffff',headerShown:false ,statusBarColor:'#29819C',headerStyle:{
         backgroundColor:'#29819C'}}}/>
     <Stack.Screen name="SplashScreen" component={SplashScreen}  options={{headerShown:false,statusBarColor:'#29819C'}}/>   
     <Stack.Screen name="AddStudent" component={AddStudent}  options={{headerTitleAlign:'center',title:'Register Student',statusBarColor:'#29819C'}}/>
