@@ -5,19 +5,17 @@ import LottieView from 'lottie-react-native';
 import Attendence from './Attendence'
 import AddTeacher from './AddTeacher';
 import TouchableAttendanceSheet from './TouchableAttendance';
-import TeacherAttendance from './TeacherAttendance';
 import ViewData from './ViewData';
 import ShowAttendance from './ShowAttendance';
-import ViewAttendance from './ViewAttendance';
 import { useFocusEffect, useNavigation, } from '@react-navigation/native';
 import Utils from './Toast';
 import { auth, db } from './FireBase';
  import Login from './Login'
-
 import Toast from 'react-native-toast-message';
 import Leave from './Leave';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { color } from 'react-native-reanimated';
 const Drawer=createDrawerNavigator();
 
 function HomeScreen({navigation}){
@@ -44,7 +42,7 @@ function HomeScreen({navigation}){
     ),
   });
   
-  function handlelogout(){
+  const handlelogout=(navigation)=>{
     Alert.alert(
       'Logout',
       'Are you sure you want  to logout?',
@@ -56,7 +54,7 @@ function HomeScreen({navigation}){
         },
         {
           text: 'Logout',
-          onPress: () =>logout()
+          onPress: () =>logout(navigation)
         }
       ],
       { cancelable: false,
@@ -66,7 +64,7 @@ function HomeScreen({navigation}){
     return true;
   };
 
-  const  logout=()=> {
+  const logout=({navigation})=> {
     auth
       .signOut()
       .then(() => Utils.successMsg("Successfully logout")
@@ -202,16 +200,17 @@ return (
 
 export default function Home({ navigation }) {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,}}>
       <DrawerNavigation />
     </View>
   );
 }
+
 function DrawerNavigation() {
   return (
-      <Drawer.Navigator initialRouteName="HomeScreen">
-      <Drawer.Screen name="Home" component={HomeScreen} options={{headerTitleAlign:'center'}} />
-      <Drawer.Screen name="Logout" component={handlelogout} options={{headerTitleAlign:'center'}} />
+      <Drawer.Navigator  initialRouteName="HomeScreen"   >
+      <Drawer.Screen name="HomeScreen" component={HomeScreen} options={{drawerIcon:({color})=>(<Ionicons name='home-outline' size={22} color={color} />),headerTitleAlign:'center'}} />
+  
       </Drawer.Navigator>
   );
 }
