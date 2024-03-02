@@ -24,34 +24,8 @@ const [isConnected,setIsConnected]=useState(false)
   const addStudentData=async()=>{
 
     if(isConnected){
-    try{
-      const currentUser=firebase.auth().currentUser.email;
-await db.collection("Admission").doc(currentUser.uid)
-.set({
-Name:studentname,
-FatherName:studentfatherName,
-Class:studentClass,
-Caste:studentcaste,
-GRNo:studentgrNo,
-DateofBirth:studentdob,
-BFROM:studentBfromNo,
-DateAdmission:studentAdmissionDate,
-Age:studentage,
-Status:"Enrolled",
-        })
-        .then(() => {
-
-         Util.successMsg("Student sucessfully enrolled")
-         resetform();
-      })
-        .catch((error) => {
-          console.error('Error writing document: ', error);
-        });
- 
-    }
-    catch(error){
-      console.log(error)
-    } }
+    API_Post();
+  }
     else{
   Util.errorMsg("Please make sure you're connected to internet connection")
     }
@@ -65,6 +39,39 @@ Status:"Enrolled",
       unsubscribe();
     }
   })
+  const API_Post = () => {
+    const InsertAPIURL = "http://10.0.2.2:80/api/add_Student.php";
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+    const Data = {
+      StudentName: studentname,
+      StudentfatherName:studentfatherName,
+      StudentAdmission: studentAdmissionDate,
+      StudentAge: studentage,
+      StudentBForm: studentBfromNo,
+      StudentContactNumber:studentcontactNumber,
+      StudentGrNO:studentgrNo,
+      
+
+    };
+
+    fetch(InsertAPIURL, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(Data)
+    }).then((res) => res.json()).then((res) => {
+     
+      if(res[0].Message=='Sucessfull'){
+        Util.successMsg("Sucessfull");
+        resetform();
+      }
+    }).catch((error) => {
+      console.log("Error", error)
+    })
+  }
+
 
   const resetform =()=>{
     setStudentName('');

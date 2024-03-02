@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import React, { useState } from 'react';
-import { View, Text,TextInput, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Animated } from 'react-native';
 import LottieView from 'lottie-react-native';
 const RegisterStudent = () => {
   const [name, setName] = useState('');
@@ -9,12 +9,9 @@ const RegisterStudent = () => {
   const [bFormNo, setBFormNo] = useState('');
   const [grNo, setGrNo] = useState('');
   const [seriesNo, setSeriesNo] = useState('');
- 
- 
-
   return (
-    <View style={{  }}>
-      
+    <View style={{}}>
+
       <Text>Name</Text>
       <TextInput
         value={name}
@@ -56,7 +53,6 @@ const RegisterStudent = () => {
         onChangeText={text => setSeriesNo(text)}
         placeholder="Enter series number"
       />
-
       <TouchableOpacity >
         <Text>Submit</Text>
       </TouchableOpacity>
