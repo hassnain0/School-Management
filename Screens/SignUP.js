@@ -1,95 +1,98 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet,Image, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import LottieView from 'lottie-react-native';
 import Login from './Login';
 import { useNavigation } from '@react-navigation/native';
 import Util from './Toast'
 import NetInfo from '@react-native-community/netinfo'
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { auth } from './FireBase';
-import { createUserWithEmailAndPassword } from '@firebase/auth';
-
-
-const SignUP= ({navigation}) => {
-
+const SignUP = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   //Here usestate is used to initialize variables
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
-  const [isConnected,setIsConnected]=useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  //Internet Connection Method to check Wether connection is builded or not 
+  useEffect(() => {
 
-  //Internet Connection Method
-  useEffect(()=>{
-  
-    const unsubscribe=NetInfo.addEventListener(state=>{
-    setIsConnected(state.isConnected);
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
     })
-    return ()=>{
+    return () => {
       unsubscribe();
     }
-}) 
-  
-
-
-const Navigation=useNavigation()
+  })
+  const Navigation = useNavigation()
   const handleSignUp = () => {
-  
-    if(username==null){
-          
+
+    if (username == null) {
+
       Util.errorMsg("Please enter username")
     }
-   else if(email==null){
+    else if (email == null) {
       Util.errorMsg("Please enter email")
     }
-   else if(password==null){
+    else if (password == null) {
       Util.errorMsg("Please enter password")
     }
-   else if(confirmPassword==null){
+    else if (confirmPassword == null) {
       Util.errorMsg("Please enter confirm password")
-    }  
-else{
-    if(isConnected){
- createUserWithEmailAndPassword(auth,email,password).then(userCredentials=>{
-  Util.successMsg("Sucessfully Registered")
- Navigation.navigate("Login")
-  
- })
- .catch(err => {
-  if (err.code === 'auth/email-already-in-use') {
-    Util.errorMsg("Email Already in use")
+    }
+    else {
+      if (isConnected) {
+        API_Post();
+      }
 
-  }
-  if (err.code === 'auth/invalid-email') {
-  Util.errorMsg("Invalid Email");
-  }
+      else {
+        Util.errorMsg("Please connect internet connection")
+      }
 
-  if (err.code === 'auth/email-already-in-use') {
-    Util.errorMsg("Email Already in use")
-  }
-  if (err.code === 'auth/weak-password') {
-    Util.errorMsg("Please input Strong password")
-  }
-  else{
-    console.log(err.code)
-  }
-});}
-
-else{
-  Util.errorMsg("Please connect internet connection")
-}
-    
-  }    
+    }
   };
+  const API_Post = () => {
+    const InsertAPIURL = "http://10.0.2.2:80/api/insert.php";
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+    const Data = {
+      Username: username,
+      Email: email,
+      Password: password,
+      Confirm_Password: confirmPassword,
+    };
+
+    fetch(InsertAPIURL, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(Data)
+    }).then((res) => res.json()).then((res) => {
+     
+      if(res[0].Message=='Registered  Sucessfully'){
+        Util.successMsg("Registered Sucessfully");
+        resetForm();
+      }
+    }).catch((error) => {
+      console.log("Error", error)
+    })
+  }
+
+  const resetForm=()=>{
+    setUsername('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+  }
   return (
     <View style={styles.container}>
-<Text style={styles.label}>Username</Text>
+      <Text style={styles.label}>Username</Text>
       <TextInput
         style={styles.input}
         value={username}
         onChangeText={setUsername}
       />
-         <Text style={styles.label}>Email</Text>
+      <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
         value={email}
@@ -99,8 +102,8 @@ else{
       <TextInput
         style={styles.input}
         value={password}
-        onChangeText={setPassword} 
-        secureTextEntry={true}/>
+        onChangeText={setPassword}
+        secureTextEntry={true} />
       <Text style={styles.label}>Confirm Password</Text>
       <TextInput
         style={styles.input}
@@ -108,10 +111,10 @@ else{
         onChangeText={setConfirmPassword}
         secureTextEntry={true}
       />
-        <TouchableOpacity style={styles.TouchableOpacityContainer} onPress={handleSignUp}>
-      <LottieView  source={require('../LottieFiles/97735-sign-up.json')} autoPlay={true} style={styles.Cardcontainer}></LottieView>     
-     </TouchableOpacity>
-     <Toast ref={(ref) => Toast.setRef(ref)} /> 
+      <TouchableOpacity style={styles.TouchableOpacityContainer} onPress={handleSignUp}>
+        <LottieView source={require('../LottieFiles/97735-sign-up.json')} autoPlay={true} style={styles.Cardcontainer}></LottieView>
+      </TouchableOpacity>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </View>
   );
 };
@@ -121,20 +124,20 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
-  TouchableOpacityContainer:{
-     alignItems:'center',
-     alignContent:'center',
+  TouchableOpacityContainer: {
+    alignItems: 'center',
+    alignContent: 'center',
   },
-  Cardcontainer:{
-width:500,
-paddingRight:100,
+  Cardcontainer: {
+    width: 500,
+    paddingRight: 100,
   },
   label: {
     fontWeight: 'bold',
     marginTop: 20,
   },
   input: {
-    alignItems:'center',
+    alignItems: 'center',
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
@@ -142,7 +145,7 @@ paddingRight:100,
     padding: 10,
   },
   button: {
-   
+
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
@@ -150,15 +153,12 @@ paddingRight:100,
   },
   buttonText: {
     color: 'blue',
-    
-    fontSize:20,
-  },
-  LottieContainer:{
-      paddingLeft:10,
-      
 
-    
+    fontSize: 20,
+  },
+  LottieContainer: {
+    paddingLeft: 10,
   }
 });
 
-export  default SignUP;
+export default SignUP;
