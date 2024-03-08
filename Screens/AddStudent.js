@@ -40,7 +40,7 @@ const [isConnected,setIsConnected]=useState(false)
     }
   })
   const API_Post = () => {
-    const InsertAPIURL = "http://10.0.2.2:80/api/add_Student.php";
+    const InsertAPIURL = "http://10.0.2.2:80/api/studentAdmisson.php";
     const headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -53,8 +53,9 @@ const [isConnected,setIsConnected]=useState(false)
       StudentBForm: studentBfromNo,
       StudentContactNumber:studentcontactNumber,
       StudentGrNO:studentgrNo,
-      
-
+      StudentCaste:studentcaste,
+      StudentClass:studentClass,
+      Studentdob:studentdob,
     };
 
     fetch(InsertAPIURL, {
@@ -195,6 +196,7 @@ const [isConnected,setIsConnected]=useState(false)
         style={styles.input}
         placeholder="B-Form No"
         value={studentBfromNo}
+        keyboardType='numeric'
         onChangeText={(text) => setStudentBformNo(text)}
       
       />

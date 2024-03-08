@@ -36,6 +36,7 @@ return ()=>{
     navigation.navigate("ForgotScreen")
   }
   const handleLogin=()=>{
+    navigation.navigate("Home")
    if(myEmail==null){
       Util.errorMsg("Please enter email")
     }
@@ -44,22 +45,7 @@ return ()=>{
     }
    else{
     if(isConnected){
-    signInWithEmailAndPassword(auth,myEmail, myPassword).then(() => {
-      navigation.navigate("Home")
-  }).catch(error=>{
-    if(error.code=='auth/too-many-request'){
-     Util.errorMsg("Too many request due Account disabled")
-    }
-    if(error.code=='auth/wrong-password'){
-      Util.errorMsg("Wrong Password")
-    }
-   if(error.code=='auth/invalid-email'){
-    Util.errorMsg("Invalid Email")
-   }
-   if(error.code=='auth/user-not-found'){
-    Util.errorMsg("User not found")
-   }
-  })
+    
 }
 else{
   Util.errorMsg("Please connect Internet Connection");1
