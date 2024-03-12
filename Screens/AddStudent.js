@@ -48,7 +48,7 @@ const [isConnected,setIsConnected]=useState(false)
     const Data = {
       StudentName: studentname,
       StudentfatherName:studentfatherName,
-      StudentAdmission: studentAdmissionDate,
+      StudentAdmissionDate: studentAdmissionDate,
       StudentAge: studentage,
       StudentBForm: studentBfromNo,
       StudentContactNumber:studentcontactNumber,
@@ -58,6 +58,7 @@ const [isConnected,setIsConnected]=useState(false)
       Studentdob:studentdob,
     };
 
+   
     fetch(InsertAPIURL, {
       method: 'POST',
       headers: headers,

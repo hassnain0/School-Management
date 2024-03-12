@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Alert } from 'react-native';
-import LottieView from 'lottie-react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, } from 'react-native';
 import Login from './Login';
 import { useNavigation } from '@react-navigation/native';
 import Util from './Toast'
@@ -67,18 +66,21 @@ const SignUP = ({ navigation }) => {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(Data)
-    }).then((res) => res.json()).then((res) => {
-     
-      if(res[0].Message=='Registered  Sucessfully'){
+    }).then((res) => {
+      
+      console.log("Dtaa",res)
+      res.json();
+    }).then((res) => {
+      if (res[0].Message == 'Sucessfull') {
         Util.successMsg("Registered Sucessfully");
         resetForm();
-      }
-    }).catch((error) => {
-      console.log("Error", error)
-    })
+      }    }).catch((error) => {
+      console.log("Error", error);
+    });
+    
   }
 
-  const resetForm=()=>{
+  const resetForm = () => {
     setUsername('');
     setEmail('');
     setPassword('');
@@ -111,8 +113,8 @@ const SignUP = ({ navigation }) => {
         onChangeText={setConfirmPassword}
         secureTextEntry={true}
       />
-      <TouchableOpacity style={styles.TouchableOpacityContainer} onPress={handleSignUp}>
-        <LottieView source={require('../LottieFiles/97735-sign-up.json')} autoPlay={true} style={styles.Cardcontainer}></LottieView>
+      <TouchableOpacity style={styles.submitButton} onPress={handleSignUp}>
+        <Text style={styles.submitButtonText}>Register</Text>
       </TouchableOpacity>
       <Toast ref={(ref) => Toast.setRef(ref)} />
     </View>
@@ -131,6 +133,17 @@ const styles = StyleSheet.create({
   Cardcontainer: {
     width: 500,
     paddingRight: 100,
+  },
+  submitButton: {
+    marginTop: 10,
+    backgroundColor: "#333",
+    padding: 10,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 18,
   },
   label: {
     fontWeight: 'bold',

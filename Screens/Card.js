@@ -45,7 +45,28 @@ return ()=>{
     }
    else{
     if(isConnected){
-    
+    const InsertAPIURL = "http://10.0.2.2:80/api/Login.php";
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+    const Data = {
+    Email:myEmail,
+    Password:myPassword,
+    };
+
+    fetch(InsertAPIURL, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(Data)
+    }).then((res) => res.json()).then((res) => {
+     
+      if(res[0].Message=='Exist'){
+      navigation.navigate("Home");
+      }
+    }).catch((error) => {
+      console.log("Error", error)
+    })
 }
 else{
   Util.errorMsg("Please connect Internet Connection");1
