@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-
 } from "react-native";
 import Util from './Toast'
 import { Picker } from "@react-native-picker/picker";
@@ -37,7 +36,7 @@ const AddTeacher = () => {
     }
   }, [])
   const handleSubmit = async () => {
-
+   
     if (fullName == null || fullName == '') {
       Util.errorMsg("Please enter teacher name");
       return;
@@ -113,22 +112,31 @@ const AddTeacher = () => {
       ContactNumber: contactNumber,
     };
 
-    axios.post(InsertAPIURL, {
+   
+
+    fetch(InsertAPIURL, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(Data)
-    }).then((res) => {
-     res.JSON();
-      console.log("Works")
-    }).then((res) => {
-      
-        Util.successMsg("Registered Sucessfully");
+    })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return res.json();
+    })
+    .then((json) => {
+      if (json && json[0] && json[0].Message === 'Successful') {
+        Util.successMsg("Registered Successfully");
         resetForm();
-          }).catch((error) => {
-      console.log("Error", error);
-    }); 
+      } else {
+        throw new Error('Unexpected response from server');
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
   }
-
 
   const resetForm = () => {
     setFullName('');

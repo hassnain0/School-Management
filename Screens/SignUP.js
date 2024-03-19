@@ -66,20 +66,26 @@ const SignUP = ({ navigation }) => {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(Data)
-    }).then((res) => {
-      
-      console.log("Dtaa",res)
-      res.json();
-    }).then((res) => {
-      if (res[0].Message == 'Sucessfull') {
-        Util.successMsg("Registered Sucessfully");
+    })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return res.json();
+    })
+    .then((res) => {
+      if (res && res[0] && res[0].Message === 'Sucessfull') {
+        Util.successMsg("Registered Successfully");
         resetForm();
-      }    }).catch((error) => {
-      console.log("Error", error);
+      } else {
+        throw new Error('Unexpected response from server');
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
     
   }
-
   const resetForm = () => {
     setUsername('');
     setEmail('');

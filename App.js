@@ -29,6 +29,7 @@ export default function App() {
   return (
     <NavigationContainer>
     <Stack.Navigator>
+    <Stack.Screen name="Login" component={Login}options={{headerShown:false,statusBarColor:'#29819C'}}/>
      <Stack.Screen name='AnotherSplashScreen' component={AnotherSplashScreen } options={{headerShown:false,statusBarColor:'#29819C'}}/>
      <Stack.Screen name="AddTeacher" component={AddTeacher} options={{headerTitleAlign:'center',title:'Register Teacher',statusBarColor:'#29819C'}}/>
      <Stack.Screen name="Home" component={Home} 
@@ -36,7 +37,7 @@ export default function App() {
         backgroundColor:'#29819C'}}}/>
     <Stack.Screen name="SplashScreen" component={SplashScreen}  options={{headerShown:false,statusBarColor:'#29819C'}}/>   
     <Stack.Screen name="AddStudent" component={AddStudent}  options={{headerTitleAlign:'center',title:'Register Student',statusBarColor:'#29819C'}}/>
-      <Stack.Screen name="Login" component={Login}options={{headerShown:false,statusBarColor:'#29819C'}}/>
+    
        <Stack.Screen name="TouchableAttendance" component={TouchableAttendance} options={{title:'Teachers  Attendence',headerTitleAlign:'center',statusBarColor:'#29819C'}}/>
         <Stack.Screen name="ReadingSplash" component={ReadingSplash}  options={{headerShown:false,statusBarColor:'#29819C'}}/>
         <Stack.Screen name="Class" component={Class}  options={{headerTitleAlign:'center',title:'Class',headerTintColor:'#ffff',statusBarColor:'#29819C',headerStyle:{
